@@ -80,3 +80,26 @@ export const fetchSingleProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updateStock = async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Unauthorized Access",
+      });
+    }
+    const product = await Product.findById(req.params.id);
+    const { stock } = req.body;
+    if (stock) {
+      product.stock = stock;
+      await product.save();
+      return res.status(200).json({ message: "Stock Updated" });
+    }
+
+    res.status(400).json({
+      message: "Please enter the stock value",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
