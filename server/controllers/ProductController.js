@@ -1,4 +1,5 @@
 import { Product } from "../models/Product.js";
+import { rm } from "fs";
 
 export const createProduct = async (req, res) => {
   // this is an admin route because only admin can create products
@@ -98,6 +99,27 @@ export const updateStock = async (req, res) => {
 
     res.status(400).json({
       message: "Please enter the stock value",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteProduct = async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Unauthorized Access",
+      });
+    }
+    const product = await Product.findById(req.params.id);
+    rm(product.image, () => {
+      console.log("Image Deleted"); // this is to delete an image from uploads folder
+    });
+
+    await product.deleteOne();
+    res.status(200).json({
+      message: "Product Deleted",
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
