@@ -17,3 +17,15 @@ export const addAddress = async (req, res) => {
     });
   }
 };
+
+export const fetchAllAddress = async (req, res) => {
+  try {
+    const allAdd = await Address.find({});
+
+    res.status(200).json({ allAdd });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
