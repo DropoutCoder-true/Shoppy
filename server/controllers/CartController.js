@@ -100,7 +100,7 @@ export const updateCart = async (req, res) => {
 
     if (action === "dec") {
       const { id } = req.body;
-      const cart = await Cart.findById(id);
+      const cart = await Cart.findById(id).populate("product");
 
       if (cart.quantity > 1) {
         cart.quantity--;
