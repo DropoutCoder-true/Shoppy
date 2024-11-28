@@ -29,3 +29,12 @@ export const fetchAllAddress = async (req, res) => {
     });
   }
 };
+
+export const getSingleAddress = async (req, res) => {
+  try {
+    const add = await Address.findById(req.params.id);
+    res.status(200).json({ add });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
