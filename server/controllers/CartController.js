@@ -63,3 +63,18 @@ export const fetchCart = async (req, res) => {
     });
   }
 };
+
+export const removeFromCart = async (req, res) => {
+  try {
+    const cart = await Cart.findById(req.params.id);
+    await cart.deleteOne();
+
+    res.status(200).json({
+      message: "Item Deleted From Cart",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
