@@ -8,6 +8,6 @@ import { isAuth } from "../middlewares/isAuth.js";
 const router = express.Router();
 
 router.post("/address/new", isAuth, addAddress);
-router.get("/address/all", fetchAllAddress);
+router.get("/address/all", isAuth, fetchAllAddress);
 
 export default router;

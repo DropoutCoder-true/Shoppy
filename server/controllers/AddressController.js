@@ -20,7 +20,7 @@ export const addAddress = async (req, res) => {
 
 export const fetchAllAddress = async (req, res) => {
   try {
-    const allAdd = await Address.find({});
+    const allAdd = await Address.find({ user: req.user._id });
 
     res.status(200).json({ allAdd });
   } catch (error) {
