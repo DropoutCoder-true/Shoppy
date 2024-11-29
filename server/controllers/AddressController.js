@@ -38,3 +38,21 @@ export const getSingleAddress = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteAddress = async (req, res) => {
+  try {
+    const add = await Address.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+    await add.deleteOne();
+
+    res.status(200).json({
+      message: "Address Deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
