@@ -22,7 +22,7 @@ export const addToCart = async (req, res) => {
       });
     }
 
-    const cartProd = await Product.find({ product });
+    const cartProd = await Product.findById(product);
 
     if (cartProd.stock == 0) {
       return res.status(400).json({
@@ -36,7 +36,7 @@ export const addToCart = async (req, res) => {
       user: req.user._id,
     });
 
-    req.status(200).json({ message: "Added to Cart" });
+    res.status(200).json({ message: "Added to Cart" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
