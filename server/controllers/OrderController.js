@@ -61,3 +61,73 @@ export const getMyOrder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updateStatus = async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "This is an admin route",
+      });
+    }
+
+    const order = await Order.findById(req.params.id);
+    console.log(order.status);
+    if (order.status === "Pending") {
+      order.status = "Processing";
+
+      await sendMail(
+        req.user.email,
+        "Shoppy",
+        "Your order is in processing, and it will be delivered soon"
+      );
+
+      await order.save();
+
+      return res.json({ message: "Order Status Updated!" });
+    }
+
+    if (order.status === "Processing") {
+      order.status = "Shipped";
+
+      await sendMail(
+        req.user.email,
+        "Shoppy",
+        "Your Order has been shipped, and will reach to your destination ASAP."
+      );
+
+      await order.save();
+
+      return res.json({ message: "Order Status Updated!" });
+    }
+
+    if (order.status === "Shipped") {
+      order.status = "Out for Delivery";
+
+      await sendMail(
+        req.user.email,
+        "Shoppy",
+        "Your Order is out for delivery."
+      );
+
+      await order.save();
+
+      return res.json({ message: "Order Status Updated!" });
+    }
+
+    if (order.status === "Out for Delivery") {
+      order.status = "Delivered";
+
+      await sendMail(
+        req.user.email,
+        "Shoppy",
+        "Your Order has been delivered. Thanks for Shopping with Shoppy"
+      );
+
+      await order.save();
+
+      return res.status(200).json({ message: "Order Status Updated!" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
