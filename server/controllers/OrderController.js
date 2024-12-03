@@ -52,3 +52,12 @@ export const newOrderCod = async (req, res) => {
     });
   }
 };
+
+export const getMyOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    res.status(200).json({ order });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
