@@ -13,7 +13,7 @@ export const ProductContextProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(0);
 
   async function fetchProducts() {
     try {
@@ -33,7 +33,7 @@ export const ProductContextProvider = ({ children }) => {
 
   useEffect(() => {
     fetchProducts();
-  }, [search, category, price]);
+  }, [search, category, price, page]);
 
   return (
     <ProductContext.Provider

@@ -1,4 +1,4 @@
-import { Badge, Container, Form, Row } from "react-bootstrap";
+import { Badge, Container, Form, Pagination, Row } from "react-bootstrap";
 import { ProductData } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
 import Loader from "../components/Loader";
@@ -12,6 +12,7 @@ const Products = () => {
     setSearch,
     price,
     setPrice,
+    totalPages,
     page,
     setPage,
     category,
@@ -83,6 +84,30 @@ const Products = () => {
             <p>No Products Yet</p>
           )}
         </Row>
+      )}
+
+      {totalPages && totalPages > 1 && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyItems: "center",
+            alignItems: "center",
+            marginTop: "8px",
+          }}
+        >
+          <Pagination>
+            {[...Array(totalPages)].map((_, i) => (
+              <Pagination.Item
+                key={i}
+                onClick={() => setPage(i + 1)}
+                style={{ cursor: "pointer" }}
+              >
+                {i + 1}
+              </Pagination.Item>
+            ))}
+          </Pagination>
+        </div>
       )}
     </Container>
   );
