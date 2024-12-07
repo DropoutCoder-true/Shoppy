@@ -47,6 +47,8 @@ const Products = () => {
           aria-label="Default select example"
           className="mt-3"
           style={{ width: "250px" }}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         >
           <option value="">Category</option>
 
