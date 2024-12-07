@@ -7,28 +7,54 @@ const ProductContext = createContext();
 export const ProductContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [topProducts, setTopProducts] = useState([]);
-  const [totalPages, setTotalPages] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
 
   async function fetchProducts() {
     try {
-      const { data } = await axios.get(`${server}/api/product/all`);
+      const { data } = await axios.get(
+        `${server}/api/product/all?search=${search}&category=${category}&price=${price}&page=${page}`
+      );
       setProducts(data.products);
       setTopProducts(data.mostSelling);
-      setTotalPages(data.totalPages)
-      setLoading(false)
+      setTotalPages(data.totalPages);
+      setCategories(data.categories);
+      setLoading(false);
     } catch (error) {
       console.log(error);
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [search, category, price]);
 
   return (
-    <ProductContext.Provider value={{products, totalPages, topProducts, loading}}>{children}</ProductContext.Provider>
+    <ProductContext.Provider
+      value={{
+        products,
+        totalPages,
+        topProducts,
+        loading,
+        categories,
+        search,
+        setSearch,
+        page,
+        setPage,
+        price,
+        setPrice,
+        category,
+        setCategory,
+      }}
+    >
+      {children}
+    </ProductContext.Provider>
   );
 };
 
