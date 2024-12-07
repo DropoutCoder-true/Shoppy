@@ -66,8 +66,10 @@ const Products = () => {
             style={{ width: "200px" }}
             min={0}
             max={7000}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           />
-          <p>Minimum Price - </p>
+          <p>Minimum Price - Rs. {price}</p>
         </div>
       </div>
 
