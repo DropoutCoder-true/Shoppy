@@ -10,6 +10,7 @@ import Verify from "./pages/Verify";
 import { UserData } from "./context/UserContext";
 import Loader from "./components/Loader";
 import Accounts from "./pages/Accounts";
+import ProductDetails from "./pages/ProductDetails";
 
 const App = () => {
   const { loading, isAuth, user } = UserData();
@@ -23,7 +24,8 @@ const App = () => {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
+            <Route path="/product" element={<Products />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/login" element={isAuth ? <Home /> : <Login />} />
             <Route
               path="/account"

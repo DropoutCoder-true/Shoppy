@@ -34,7 +34,7 @@ const Header = () => {
               <Link to="/">Home</Link>
             </Nav.Link>
             <Nav.Link>
-              <Link to="/products">Products</Link>
+              <Link to="/product">Products</Link>
             </Nav.Link>
             {isAuth && (
               <Nav.Link>
