@@ -47,13 +47,39 @@ export const UserContextProvider = ({ children }) => {
     }
   }
 
+  async function registerUser(name, email, password, navigate) {
+    try {
+      const { data } = await axios.post(`${server}/api/user/register`, {
+        name,
+        email,
+        password,
+      });
+      if (data.message) {
+        setLoading(false);
+        toast.success(data.message);
+        localStorage.setItem("activationToken", data.activationToken);
+        navigate("/verify");
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchUser();
   }, []);
 
   return (
     <UserContext.Provider
-      value={{ userLogin, user, setUser, isAuth, setIsAuth, loading }}
+      value={{
+        userLogin,
+        user,
+        setUser,
+        isAuth,
+        setIsAuth,
+        loading,
+        registerUser,
+      }}
     >
       {children}
       <Toaster />
