@@ -65,6 +65,25 @@ export const UserContextProvider = ({ children }) => {
     }
   }
 
+  async function verifyUser(otp, navigate) {
+    const activationToken = localStorage.getItem("activationToken");
+
+    try {
+      const { data } = await axios.post(`${server}/api/user/verify`, {
+        activationToken,
+        otp,
+      });
+
+      if (data.message) {
+        localStorage.clear();
+        navigate("/login");
+        toast.success(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchUser();
   }, []);
@@ -79,6 +98,7 @@ export const UserContextProvider = ({ children }) => {
         setIsAuth,
         loading,
         registerUser,
+        verifyUser,
       }}
     >
       {children}
