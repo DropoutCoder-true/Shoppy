@@ -9,9 +9,10 @@ import Register from "./pages/Register";
 import Verify from "./pages/Verify";
 import { UserData } from "./context/UserContext";
 import Loader from "./components/Loader";
+import Accounts from "./pages/Accounts";
 
 const App = () => {
-  const { loading, isAuth } = UserData();
+  const { loading, isAuth, user } = UserData();
 
   return (
     <>
@@ -24,6 +25,10 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
             <Route path="/login" element={isAuth ? <Home /> : <Login />} />
+            <Route
+              path="/account"
+              element={isAuth ? <Accounts user={user} /> : <Login />}
+            />
             <Route
               path="/register"
               element={isAuth ? <Home /> : <Register />}
