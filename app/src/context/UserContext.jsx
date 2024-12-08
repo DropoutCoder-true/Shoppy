@@ -10,7 +10,7 @@ export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  async function userLogin(email, password) {
+  async function userLogin(email, password, navigate) {
     try {
       const { data } = await axios.post(`${server}/api/user/login`, {
         email,
@@ -22,6 +22,7 @@ export const UserContextProvider = ({ children }) => {
         setLoading(false);
         setIsAuth(true);
         setUser(data.user);
+        navigate("/");
       }
     } catch (error) {
       toast.error(error.response.data.message);

@@ -1,5 +1,5 @@
 import { Container, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserData } from "../context/UserContext";
 import { useState } from "react";
 
@@ -7,10 +7,11 @@ const Login = () => {
   const { userLogin } = UserData();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await userLogin(email, password);
+    await userLogin(email, password, navigate);
   };
 
   return (
