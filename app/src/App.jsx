@@ -11,6 +11,7 @@ import { UserData } from "./context/UserContext";
 import Loader from "./components/Loader";
 import Accounts from "./pages/Accounts";
 import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
 
 const App = () => {
   const { loading, isAuth, user } = UserData();
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="/product" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/login" element={isAuth ? <Home /> : <Login />} />
+            <Route path="/cart" element={isAuth ? <Cart /> : <Login />} />
             <Route
               path="/account"
               element={isAuth ? <Accounts user={user} /> : <Login />}

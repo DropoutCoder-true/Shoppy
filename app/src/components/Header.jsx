@@ -1,5 +1,6 @@
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { UserData } from "../context/UserContext";
 import toast from "react-hot-toast";
 
@@ -42,6 +43,16 @@ const Header = () => {
               </Nav.Link>
             )}
           </Nav>
+
+          {isAuth && (
+            <Button
+              variant="success"
+              className="mx-2"
+              style={{ fontSize: "20px" }}
+            >
+              <AiOutlineShoppingCart />
+            </Button>
+          )}
 
           {isAuth ? (
             <Button onClick={logoutHandler} variant="danger">
