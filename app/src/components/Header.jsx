@@ -1,8 +1,19 @@
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { UserData } from "../context/UserContext";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const navigate = useNavigate();
+  const { isAuth, setUser, setIsAuth } = UserData();
+
+  const logoutHandler = () => {
+    localStorage.clear();
+    setUser([]);
+    setIsAuth(false);
+    toast.success("Logged Out");
+  };
+
   return (
     <Navbar
       bg="dark"
@@ -25,14 +36,22 @@ const Header = () => {
             <Nav.Link>
               <Link to="/products">Products</Link>
             </Nav.Link>
-            <Nav.Link>
-              <Link to="/account">Account</Link>
-            </Nav.Link>
+            {isAuth && (
+              <Nav.Link>
+                <Link to="/account">Account</Link>
+              </Nav.Link>
+            )}
           </Nav>
 
-          <Button onClick={() => navigate("/login")} variant="success">
-            Login
-          </Button>
+          {isAuth ? (
+            <Button onClick={logoutHandler} variant="danger">
+              Logout
+            </Button>
+          ) : (
+            <Button onClick={() => navigate("/login")} variant="success">
+              Login
+            </Button>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

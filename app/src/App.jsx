@@ -7,20 +7,31 @@ import Products from "./pages/Products";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Verify from "./pages/Verify";
+import { UserData } from "./context/UserContext";
+import Loader from "./components/Loader";
 
 const App = () => {
+  const { loading, isAuth } = UserData();
+
   return (
     <>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/verify" element={<Verify />} />
-        </Routes>
-      </BrowserRouter>
+      {loading ? (
+        <Loader />
+      ) : (
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/login" element={isAuth ? <Home /> : <Login />} />
+            <Route
+              path="/register"
+              element={isAuth ? <Home /> : <Register />}
+            />
+            <Route path="/verify" element={isAuth ? <Home /> : <Verify />} />
+          </Routes>
+        </BrowserRouter>
+      )}
     </>
   );
 };
