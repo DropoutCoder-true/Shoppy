@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { UserData } from "../context/UserContext";
 import toast from "react-hot-toast";
+import { CartData } from "../context/CartContext";
 
 const Header = () => {
   const navigate = useNavigate();
   const { isAuth, setUser, setIsAuth } = UserData();
+  const { totalItem } = CartData();
 
   const logoutHandler = () => {
     localStorage.clear();
@@ -49,8 +51,9 @@ const Header = () => {
               variant="success"
               className="mx-2"
               style={{ fontSize: "20px" }}
+              onClick={() => navigate("/cart")}
             >
-              <AiOutlineShoppingCart />
+              <AiOutlineShoppingCart /> {totalItem}
             </Button>
           )}
 

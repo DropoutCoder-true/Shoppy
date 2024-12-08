@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Container, Button, Image, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { server } from "../main";
+import { CartData } from "../context/CartContext";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState([]);
   const params = useParams();
+  const { addToCart } = CartData();
 
   async function fetchProducts() {
     try {
@@ -20,6 +22,10 @@ const ProductDetails = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const addToCartHandler = async (product) => {
+    await addToCart(product);
+  };
 
   return (
     <Container className="mt-4">
@@ -37,7 +43,12 @@ const ProductDetails = () => {
             <p>{product.description}</p>
             <p>Category: {product.category}</p>
             <p>Price: Rs.{product.price}</p>
-            <Button variant="secondary">Add to Cart</Button>
+            <Button
+              variant="secondary"
+              onClick={() => addToCartHandler(product._id)}
+            >
+              Add to Cart
+            </Button>
           </Col>
         </Row>
       )}
