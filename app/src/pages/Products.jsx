@@ -100,6 +100,7 @@ const Products = () => {
             {[...Array(totalPages)].map((_, i) => (
               <Pagination.Item
                 key={i}
+                active={page === i + 1}
                 onClick={() => setPage(i + 1)}
                 style={{ cursor: "pointer" }}
               >
