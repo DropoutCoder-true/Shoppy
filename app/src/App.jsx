@@ -12,6 +12,7 @@ import Loader from "./components/Loader";
 import Accounts from "./pages/Accounts";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 const App = () => {
   const { loading, isAuth, user } = UserData();
@@ -32,6 +33,10 @@ const App = () => {
             <Route
               path="/account"
               element={isAuth ? <Accounts user={user} /> : <Login />}
+            />
+            <Route
+              path="/checkout"
+              element={isAuth ? <Checkout /> : <Login />}
             />
             <Route
               path="/register"

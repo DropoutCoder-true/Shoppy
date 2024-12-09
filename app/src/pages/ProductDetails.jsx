@@ -4,11 +4,13 @@ import { Container, Button, Image, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { server } from "../main";
 import { CartData } from "../context/CartContext";
+import { UserData } from "../context/UserContext";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState([]);
   const params = useParams();
   const { addToCart } = CartData();
+  const { isAuth } = UserData();
 
   async function fetchProducts() {
     try {
@@ -43,12 +45,25 @@ const ProductDetails = () => {
             <p>{product.description}</p>
             <p>Category: {product.category}</p>
             <p>Price: Rs.{product.price}</p>
-            <Button
-              variant="secondary"
-              onClick={() => addToCartHandler(product._id)}
-            >
-              Add to Cart
-            </Button>
+            {product.stock === 0 ? (
+              <p className="text-danger">Out of Stock</p>
+            ) : (
+              <>
+                {isAuth ? (
+                  <Button
+                    variant="secondary"
+                    onClick={() => addToCartHandler(product._id)}
+                  >
+                    Add to Cart
+                  </Button>
+                ) : (
+                  <p className="text-danger">
+                    {" "}
+                    Please login to add this item to your cart.
+                  </p>
+                )}
+              </>
+            )}
           </Col>
         </Row>
       )}

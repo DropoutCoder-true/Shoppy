@@ -2,12 +2,13 @@ import React from "react";
 import { Container, Table, Button } from "react-bootstrap";
 import { CartData } from "../context/CartContext";
 import { server } from "../main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 
 const Cart = () => {
   const { cart, subTotal, updateCart, removeFromCart } = CartData();
+  const navigate = useNavigate();
 
   const updateCartHandler = async (action, id) => {
     await updateCart(action, id);
@@ -88,6 +89,7 @@ const Cart = () => {
         <h2>SubTotal</h2>
         <p>Total Price: Rs. {subTotal}</p>
         <Button
+          onClick={() => navigate("/checkout")}
           style={{
             display: "flex",
             justifyContent: "center",
