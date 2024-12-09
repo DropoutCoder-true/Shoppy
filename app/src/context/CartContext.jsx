@@ -59,13 +59,32 @@ export const CartContextProvider = ({ children }) => {
     }
   }
 
+  async function removeFromCart(id) {
+    try {
+      const { data } = await axios.delete(`${server}/api/cart/${id}`, {
+        headers: { token },
+      });
+      toast.success(data.message);
+      fetchCart();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchCart();
   }, []);
 
   return (
     <CartContext.Provider
-      value={{ cart, totalItem, subTotal, addToCart, updateCart }}
+      value={{
+        cart,
+        totalItem,
+        subTotal,
+        addToCart,
+        updateCart,
+        removeFromCart,
+      }}
     >
       {children}
     </CartContext.Provider>

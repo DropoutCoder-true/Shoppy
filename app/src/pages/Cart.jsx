@@ -7,7 +7,7 @@ import { IoBagCheckOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 
 const Cart = () => {
-  const { cart, subTotal, updateCart } = CartData();
+  const { cart, subTotal, updateCart, removeFromCart } = CartData();
 
   const updateCartHandler = async (action, id) => {
     await updateCart(action, id);
@@ -41,7 +41,7 @@ const Cart = () => {
                     <Link to={`/product/${e.product._id}`}>
                       <img
                         src={`${server}/${e.product.image}`}
-                        alt=""
+                        alt="product-image"
                         style={{ width: "60px" }}
                       />
                     </Link>
@@ -70,6 +70,7 @@ const Cart = () => {
                         justifyContent: "center",
                         alignItems: "center",
                       }}
+                      onClick={() => removeFromCart(e._id)}
                     >
                       <MdDelete />
                     </Button>
