@@ -34,7 +34,21 @@ const Checkout = () => {
   useEffect(() => {
     fetchAddress()
   }, [])
-  
+ 
+  const deleteHandler = async(id) => {
+    if(confirm("Are you sure want to delete the selected addresss? ")){
+     try {
+      const { data } = await axios.delete(`${server}/api/address/${id}`, {
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      }) 
+      toast.success(data.message)
+      fetchAddress()
+      } catch (error) {
+      toast.error(error.response.data.message) 
+    }} 
+  }
 
   return (
     <Container>
@@ -54,7 +68,7 @@ const Checkout = () => {
             <Card key={i} style={{width: "18rem"}}>
               <Card.Body>
                 <Card.Title>
-                  Address - {i+1} {" "} <Button variant="danger"><MdDelete/></Button>
+                  Address - {i+1} {" "} <Button onClick={()=>deleteHandler(e._id)}variant="danger"><MdDelete/></Button>
                 </Card.Title>
                 <Card.Subtitle>
                  <p>Address - {e.address}</p> 
@@ -78,7 +92,8 @@ const AddressModal = ({ handleClose, handleShow, show, setShow, fetchAddress}) =
   const [address, setAddress] = useState("")
   const [phone, setPhone] = useState("")
 
-  async function submitHandler(){
+  async function submitHandler(e){
+    e.preventDefault(); 
   try {
    const {data} = await axios.post(`${server}/api/address/new`, {address, phone}, {
         headers: {
