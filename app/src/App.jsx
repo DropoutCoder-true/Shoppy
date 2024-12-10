@@ -13,6 +13,7 @@ import Accounts from "./pages/Accounts";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import Payment from "./pages/Payment.jsx";
 
 const App = () => {
   const { loading, isAuth, user } = UserData();
@@ -39,6 +40,11 @@ const App = () => {
               element={isAuth ? <Checkout /> : <Login />}
             />
             <Route
+              path="/payment/:id"
+              element={isAuth ? <Payment /> : <Login />}
+            />
+
+            <Route
               path="/register"
               element={isAuth ? <Home /> : <Register />}
             />
@@ -46,6 +52,7 @@ const App = () => {
           </Routes>
         </BrowserRouter>
       )}
+      ,
     </>
   );
 };
