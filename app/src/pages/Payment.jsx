@@ -1,13 +1,14 @@
 import { CartData } from "../context/CartContext.jsx";
-import { Container, Image } from "react-bootstrap";
+import { Button, Container, Image } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { server } from "../main";
+import { RiSecurePaymentLine } from "react-icons/ri";
 
 const Payment = () => {
   const { cart, subTotal, fetchCart } = CartData();
-  const [address, setAddress] = useState(null);
+  const [address, setAddress] = useState([]);
   const [method, setMethod] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const Payment = () => {
 
   async function fetchAddress() {
     try {
-      const { data } = await axios.get(`${server}/address/${params.id}`, {
+      const { data } = await axios.get(`${server}/api/address/${params.id}`, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -30,6 +31,9 @@ const Payment = () => {
   useEffect(() => {
     fetchAddress();
   }, []);
+
+  const paymentCod = () => {};
+  const paymentOnline = () => {};
 
   return (
     <Container>
@@ -50,6 +54,7 @@ const Payment = () => {
         ))}
 
       <div className="mt-3">Total Price to be paid - Rs. {subTotal}</div>
+
       {address && (
         <div>
           <span>Address - {address.address}</span>
@@ -57,6 +62,20 @@ const Payment = () => {
           <span>Phone - {address.phone}</span>
         </div>
       )}
+
+      <select value={method} onChange={(e) => setMethod(e.target.value)}>
+        <option>Choose Payment Method</option>
+        <option value="cod">Cod</option>
+        <option value="online">Online</option>
+      </select>
+
+      <br />
+      <Button
+        onCanPlay={method === "cod" ? paymentCod : paymentOnline}
+        className="mt-2"
+      >
+        Proceed <RiSecurePaymentLine />
+      </Button>
     </Container>
   );
 };

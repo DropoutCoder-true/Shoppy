@@ -25,7 +25,7 @@ const Checkout = () => {
           token: localStorage.getItem("token"),
         },
       });
-      setAddress(data.allAdd);
+      setAddress(data.address);
     } catch (error) {
       console.log(error);
     }
@@ -121,7 +121,7 @@ const AddressModal = ({
           headers: {
             token: localStorage.getItem("token"),
           },
-        },
+        }
       );
       if (data.message) {
         toast.success(data.message);

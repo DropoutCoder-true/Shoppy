@@ -20,9 +20,9 @@ export const addAddress = async (req, res) => {
 
 export const fetchAllAddress = async (req, res) => {
   try {
-    const allAdd = await Address.find({ user: req.user._id });
+    const address = await Address.find({ user: req.user._id });
 
-    res.status(200).json({ allAdd });
+    res.status(200).json({ address });
   } catch (error) {
     res.status(500).json({
       message: error.message,
