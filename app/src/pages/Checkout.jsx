@@ -101,13 +101,7 @@ const Checkout = () => {
 
 export default Checkout;
 
-const AddressModal = ({
-  handleClose,
-  handleShow,
-  show,
-  setShow,
-  fetchAddress,
-}) => {
+const AddressModal = ({ handleClose, show, setShow, fetchAddress }) => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
 
@@ -121,7 +115,7 @@ const AddressModal = ({
           headers: {
             token: localStorage.getItem("token"),
           },
-        }
+        },
       );
       if (data.message) {
         toast.success(data.message);

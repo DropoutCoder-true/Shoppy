@@ -32,8 +32,8 @@ export const fetchAllAddress = async (req, res) => {
 
 export const getSingleAddress = async (req, res) => {
   try {
-    const add = await Address.findById(req.params.id);
-    res.status(200).json({ add });
+    const address = await Address.findById(req.params.id);
+    res.status(200).json({ address });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -41,11 +41,11 @@ export const getSingleAddress = async (req, res) => {
 
 export const deleteAddress = async (req, res) => {
   try {
-    const add = await Address.findOne({
+    const address = await Address.findOne({
       _id: req.params.id,
       user: req.user._id,
     });
-    await add.deleteOne();
+    await address.deleteOne();
 
     res.status(200).json({
       message: "Address Deleted",

@@ -1,7 +1,10 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Accounts = ({ user }) => {
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -18,7 +21,8 @@ const Accounts = ({ user }) => {
             <Card.Subtitle className="mb-2 text-muted">
               {user.email}
             </Card.Subtitle>
-            <Button>Your Orders</Button> <br />
+            <Button onClick={() => navigate("/orders")}>Your Orders</Button>{" "}
+            <br />
             {user.role === "admin" && (
               <Button className="mt-4" variant="success">
                 Dashboard
