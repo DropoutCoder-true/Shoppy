@@ -115,7 +115,7 @@ const AddressModal = ({ handleClose, show, setShow, fetchAddress }) => {
           headers: {
             token: localStorage.getItem("token"),
           },
-        },
+        }
       );
       if (data.message) {
         toast.success(data.message);
