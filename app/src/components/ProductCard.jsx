@@ -3,7 +3,7 @@ import { Button, Card, ListGroup } from "react-bootstrap";
 import { server } from "../main";
 import { useNavigate } from "react-router-dom";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, admin }) => {
   const navigate = useNavigate();
   return (
     <Card style={{ width: "18rem", marginTop: "20px" }}>

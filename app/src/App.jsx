@@ -17,6 +17,7 @@ import Payment from "./pages/Payment.jsx";
 import OrderSuccess from "./pages/OrderSuccess.jsx";
 import Orders from "./pages/Orders.jsx";
 import OrderPage from "./pages/OrderPage";
+import Dashboard from "./admin/Dashboard.jsx";
 
 const App = () => {
   const { loading, isAuth, user } = UserData();
@@ -55,7 +56,10 @@ const App = () => {
               path="/payment/:id"
               element={isAuth ? <Payment /> : <Login />}
             />
-
+            <Route
+              path="/admin/dashboard"
+              element={isAuth ? <Dashboard user={user}/> : <Login />}
+            />
             <Route
               path="/register"
               element={isAuth ? <Home /> : <Register />}
@@ -64,7 +68,6 @@ const App = () => {
           </Routes>
         </BrowserRouter>
       )}
-      ,
     </>
   );
 };

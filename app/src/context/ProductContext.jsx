@@ -14,6 +14,7 @@ export const ProductContextProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState(0);
+  const [adminProducts, setAdminProducts] = useState([]);
 
   async function fetchProducts() {
     try {
@@ -31,8 +32,20 @@ export const ProductContextProvider = ({ children }) => {
     }
   }
 
+  async function fetchProductAdmin() {
+    try {
+      const { data } = await axios.get(`${server}/api/product/admin/all`);
+      setAdminProducts(data.products);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchProducts();
+    fetchProductAdmin();
   }, [search, category, price, page]);
 
   return (
@@ -51,6 +64,7 @@ export const ProductContextProvider = ({ children }) => {
         setPrice,
         category,
         setCategory,
+        adminProducts,
       }}
     >
       {children}

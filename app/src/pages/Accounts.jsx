@@ -24,7 +24,7 @@ const Accounts = ({ user }) => {
             <Button onClick={() => navigate("/orders")}>Your Orders</Button>{" "}
             <br />
             {user.role === "admin" && (
-              <Button className="mt-4" variant="success">
+              <Button className="mt-4" variant="success" onClick={() => navigate("/admin/dashboard")}>
                 Dashboard
               </Button>
             )}

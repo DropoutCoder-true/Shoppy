@@ -3,6 +3,7 @@ import { isAuth } from "../middlewares/isAuth.js";
 import {
   createProduct,
   deleteProduct,
+  fetchProductAdmin,
   fetchProducts,
   fetchSingleProduct,
   updateStock,
@@ -13,6 +14,7 @@ const router = express.Router();
 
 router.post("/product/new", isAuth, uploadFiles, createProduct);
 router.get("/product/all", fetchProducts);
+router.get("/product/admin/all", fetchProductAdmin);
 router.get("/product/:id", fetchSingleProduct);
 router.put("/product/:id", isAuth, updateStock);
 router.delete("/product/:id", isAuth, deleteProduct);
