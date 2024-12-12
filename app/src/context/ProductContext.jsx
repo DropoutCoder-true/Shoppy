@@ -65,6 +65,7 @@ export const ProductContextProvider = ({ children }) => {
         category,
         setCategory,
         adminProducts,
+        fetchProductAdmin,
       }}
     >
       {children}
