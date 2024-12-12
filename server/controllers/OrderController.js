@@ -58,7 +58,7 @@ export const getAllOrder = async (req, res) => {
     const orders = await Order.find({
       user: req.user._id,
     });
-    res.status(200).json({ orders });
+    res.status(200).json({ orders: orders.reverse() });
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -68,7 +68,7 @@ export const getAllOrder = async (req, res) => {
 
 export const getMyOrder = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate("items.product");
     res.status(200).json({ order });
   } catch (error) {
     res.status(500).json({ message: error.message });

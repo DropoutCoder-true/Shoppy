@@ -16,6 +16,7 @@ import Checkout from "./pages/Checkout";
 import Payment from "./pages/Payment.jsx";
 import OrderSuccess from "./pages/OrderSuccess.jsx";
 import Orders from "./pages/Orders.jsx";
+import OrderPage from "./pages/OrderPage";
 
 const App = () => {
   const { loading, isAuth, user } = UserData();
@@ -45,6 +46,10 @@ const App = () => {
             <Route
               path="/ordersuccess"
               element={isAuth ? <OrderSuccess /> : <Login />}
+            />
+            <Route
+              path="/order/:id"
+              element={isAuth ? <OrderPage /> : <Login />}
             />
             <Route
               path="/payment/:id"

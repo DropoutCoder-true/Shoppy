@@ -2,9 +2,11 @@ import axios from "axios";
 import { Button, Container, Table } from "react-bootstrap";
 import { server } from "../main";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   async function fetchOrders() {
     try {
@@ -44,7 +46,9 @@ const Orders = () => {
                 <td>{item.subTotal}</td>
                 <td>{item.status}</td>
                 <td>
-                  <Button>View</Button>
+                  <Button onClick={() => navigate(`/order/${item._id}`)}>
+                    View
+                  </Button>
                 </td>
               </tr>
             ))}
