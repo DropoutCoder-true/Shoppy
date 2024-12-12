@@ -3,6 +3,8 @@ import { Button, Container, Form, Modal, Row } from "react-bootstrap";
 import ProductCard from "../../components/ProductCard";
 import { ProductData } from "../../context/ProductContext";
 import { server } from "../../main";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const Home = ({ products }) => {
   const [show, setShow] = useState(false);
@@ -43,6 +45,7 @@ const AddProduct = ({ handleClose, show, setShow, fetchProductAdmin }) => {
   const [stock, setStock] = useState("");
   const [image, setImage] = useState("");
   const [price, setPrice] = useState("");
+  const [sold, setSold] = useState("");
 
   const categories = ["Fashion", "Technology", "Accessories"];
 
@@ -52,22 +55,32 @@ const AddProduct = ({ handleClose, show, setShow, fetchProductAdmin }) => {
 
   async function submitHandler(e) {
     e.preventDefault();
+    const myForm = new FormData();
+    myForm.append("title", title);
+    myForm.append("description", description);
+    myForm.append("stock", stock);
+    myForm.append("price", price);
+    myForm.append("category", category);
+    myForm.append("image", image);
+    myForm.append("sold", sold);
+
     try {
-      const { data } = await axios.post(
-        `${server}/api/address/new`,
-        { address, phone },
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-          },
-        }
-      );
+      const { data } = await axios.post(`${server}/api/product/new`, myForm, {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      });
       if (data.message) {
         toast.success(data.message);
         fetchProductAdmin();
         setShow(false);
-        setAddress("");
-        setPhone("");
+        setTitle("");
+        setDescription("");
+        setStock("");
+        setPrice("");
+        setImage("");
+        setCategory("");
+        setSold("");
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -106,7 +119,7 @@ const AddProduct = ({ handleClose, show, setShow, fetchProductAdmin }) => {
               value={description}
               placeholder="Enter Description"
               minLength={10}
-              maxLength={10}
+              maxLength={1000}
               required
             />
           </Form.Group>
@@ -141,7 +154,10 @@ const AddProduct = ({ handleClose, show, setShow, fetchProductAdmin }) => {
             />
           </Form.Group>
 
-          <Form.Select>
+          <Form.Select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
             <option>Select Category</option>
             {categories.map((e) => (
               <option value={e} key={e}>
@@ -149,6 +165,21 @@ const AddProduct = ({ handleClose, show, setShow, fetchProductAdmin }) => {
               </option>
             ))}
           </Form.Select>
+
+          <Form.Group className="mb-3 mt-3">
+            <Form.Label>Sold</Form.Label>
+            <Form.Control
+              type="number"
+              onChange={(e) => {
+                setSold(e.target.value);
+              }}
+              value={sold}
+              placeholder="Enter Sold Units"
+              minLength={10}
+              maxLength={10}
+              required
+            />
+          </Form.Group>
 
           <Button className="my-4" type="submit">
             Add Product
