@@ -1,22 +1,22 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Container, Table } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Button, Container, Table } from "react-bootstrap";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { server } from "../main";
 
 const OrderPage = () => {
   const [order, setOrder] = useState([]);
   const params = useParams();
+  const navigate = useNavigate(); 
 
   async function fetchOrder() {
     try {
-      const { data } = await axios.get(`${server}/api/order/${params.id}`, {
+      const {data} = await axios.get(`${server}/api/order/${params.id}`, {
         headers: {
-          token: localStorage.getItem("token"),
-        },
-      });
-
-      setOrder(data.order);
+          token: localStorage.getItem("token")
+        }
+      })
+      setOrder(data.order)
     } catch (error) {
       console.log(error);
     }
@@ -33,7 +33,7 @@ const OrderPage = () => {
           <h3>OrderId - {order._id}</h3>
           <h4 className="text-center my-2 text-primary">Products</h4>
 
-          <Table>
+          <Table striped bordered hover responsive>
             <thead>
               <tr>
                 <th>#</th>
@@ -46,22 +46,32 @@ const OrderPage = () => {
             </thead>
             <tbody>
               {order.items &&
-                order.items.map((item, i) => {
+                order.items.map((item, i) => (
                   <tr key={i}>
                     <td>{i + 1}</td>
                     <td>{item.product.title}</td>
+                    <td>{item.product.price}</td>
                     <td>
                       <Link to={`/product/${item.product._id}`}>
                         <img
                           src={`${server}/${item.product.image}`}
-                          alt={item.product.title}
+                          alt=""
+                          width={60}
                         />
                       </Link>
                     </td>
-                  </tr>;
-                })}
+                    <td>{item.quantity}</td>
+                    <td>Rs. {item.product.price * item.quantity}</td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
+
+          <h5 className="text-center my-2 text-primary">SubTotal - Rs. {order.subTotal}</h5>
+          <h5 className="text-center my-2 text-primary">Payment Method - {order.method}</h5>
+          <h5 className="text-center my-2 text-primary">Status - {order.status}</h5>
+          {order.paymentInfo && <h5 className="text-center my-2 text-primary">Payment ID - {order.paymentInfo}</h5>}
+          <p className="text-center"><Button onClick={() => navigate("/orders")}>Go Back</Button></p>
         </Container>
       )}
     </>
