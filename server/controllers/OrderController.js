@@ -39,7 +39,7 @@ export const newOrderCod = async (req, res) => {
     await sendMail(
       req.user.email,
       "Let's negotiate",
-      `Thanks for shopping of ${subTotal} from our Platform your order will be delivered soon`,
+      `Thanks for shopping of ${subTotal} from our Platform your order will be delivered soon`
     );
 
     res.status(201).json({
@@ -63,6 +63,21 @@ export const getAllOrder = async (req, res) => {
     res.status(500).json({
       message: error.message,
     });
+  }
+};
+
+export const getAllOrderAdmin = async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Unauthorized",
+      });
+    }
+
+    const orders = await Order.find();
+    res.status(200).json({ orders });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -91,7 +106,7 @@ export const updateStatus = async (req, res) => {
       await sendMail(
         req.user.email,
         "Shoppy",
-        "Your order is in processing, and it will be delivered soon",
+        "Your order is in processing, and it will be delivered soon"
       );
 
       await order.save();
@@ -105,7 +120,7 @@ export const updateStatus = async (req, res) => {
       await sendMail(
         req.user.email,
         "Shoppy",
-        "Your Order has been shipped, and will reach to your destination ASAP.",
+        "Your Order has been shipped, and will reach to your destination ASAP."
       );
 
       await order.save();
@@ -119,7 +134,7 @@ export const updateStatus = async (req, res) => {
       await sendMail(
         req.user.email,
         "Shoppy",
-        "Your Order is out for delivery.",
+        "Your Order is out for delivery."
       );
 
       await order.save();
@@ -133,7 +148,7 @@ export const updateStatus = async (req, res) => {
       await sendMail(
         req.user.email,
         "Shoppy",
-        "Your Order has been delivered. Thanks for Shopping with Shoppy",
+        "Your Order has been delivered. Thanks for Shopping with Shoppy"
       );
 
       await order.save();

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ProductData } from "../context/ProductContext";
 import Home from "./pages/Home";
 import AllData from "./pages/AllData";
-import Orders from "./pages/Orders";
+import AdminOrders from "./pages/AdminOrders";
 
 const Dashboard = ({ user }) => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Dashboard = ({ user }) => {
           <AllData />
         </Tab>
         <Tab eventKey={"orders"} title={"Orders"}>
-          <Orders />
+          <AdminOrders />
         </Tab>
       </Tabs>
     </Container>
