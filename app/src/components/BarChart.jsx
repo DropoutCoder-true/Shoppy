@@ -75,7 +75,7 @@ const BarChart = ({ sold, title }) => {
 
   return (
     <>
-      <Bar width={""} options={options} data={data} />
+      <Bar width={"350px"} options={options} data={data} />
     </>
   );
 };

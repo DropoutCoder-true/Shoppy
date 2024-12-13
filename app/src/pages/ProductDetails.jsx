@@ -1,16 +1,38 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container, Button, Image, Row, Col } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { data, useParams } from "react-router-dom";
 import { server } from "../main";
 import { CartData } from "../context/CartContext";
 import { UserData } from "../context/UserContext";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState([]);
+  const [stock, setStock] = useState("");
   const params = useParams();
   const { addToCart } = CartData();
-  const { isAuth } = UserData();
+  const { isAuth, user } = UserData();
+
+  async function updateStock() {
+    try {
+      const { data } = await axios.put(
+        `${server}/api/product/${params.id}`,
+        { stock },
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+
+      toast.success(data.message);
+      fetchProducts();
+      setStock("");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
 
   async function fetchProducts() {
     try {
@@ -45,6 +67,22 @@ const ProductDetails = () => {
             <p>{product.description}</p>
             <p>Category: {product.category}</p>
             <p>Price: Rs.{product.price}</p>
+            {user.role === "admin" && <p>Stock: {product.stock}</p>}
+            {user.role === "admin" && (
+              <>
+                <input
+                  type="number"
+                  placeholder="Update Stock"
+                  value={stock}
+                  onChange={(e) => setStock(e.target.value)}
+                  required
+                />
+                <Button className="mx-2" onClick={updateStock}>
+                  Update Stock
+                </Button>
+              </>
+            )}{" "}
+            <br />
             {product.stock === 0 ? (
               <p className="text-danger">Out of Stock</p>
             ) : (
