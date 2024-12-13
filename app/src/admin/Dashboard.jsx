@@ -22,7 +22,7 @@ const Dashboard = ({ user }) => {
           <Home products={adminProducts} />
         </Tab>
         <Tab eventKey={"data"} title={"All Data"}>
-          <AllData />
+          <AllData products={adminProducts} />
         </Tab>
         <Tab eventKey={"orders"} title={"Orders"}>
           <AdminOrders />

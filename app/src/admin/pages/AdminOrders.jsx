@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { server } from "../../main";
 import { useEffect } from "react";
 import { Button, Table } from "react-bootstrap";
+import toast from "react-hot-toast";
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   async function fetchOrderAdmin() {
     try {
@@ -24,6 +26,30 @@ const AdminOrders = () => {
   useEffect(() => {
     fetchOrderAdmin();
   }, []);
+
+  const updateStatus = async (id) => {
+    if (confirm("Are you sure you want to update status of this order?")) {
+      setLoading(true);
+      try {
+        const { data } = await axios.put(
+          `${server}/api/order/${id}`,
+          {},
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
+
+        toast.success(data.message);
+        fetchOrderAdmin();
+        setLoading(false);
+      } catch (error) {
+        toast.error(error.response.data.message);
+        setLoading(false);
+      }
+    }
+  };
 
   const totalSubTotal = orders.reduce(
     (total, order) => total + order.subTotal,
@@ -55,7 +81,12 @@ const AdminOrders = () => {
                   {e.status === "Delivered" ? (
                     <p className="text-success">Order Delivered</p>
                   ) : (
-                    <Button>Update Status</Button>
+                    <Button
+                      disabled={loading}
+                      onClick={() => updateStatus(e._id)}
+                    >
+                      Update Status
+                    </Button>
                   )}
                 </td>
               </tr>
